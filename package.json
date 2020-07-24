@@ -14,7 +14,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "lint-staged && npx quasar build",
       "pre-push": "lint-staged && npx quasar build"
     }
   },
