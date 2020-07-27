@@ -1,5 +1,14 @@
 <template>
-  <div>LOGGED IN</div>
+  <div>
+    <div class="text-h6">
+      Easily cancel your pending transaction with the button below.
+    </div>
+    <img
+      class="cancel-button q-mt-xl"
+      src="~assets/easy-button.png"
+      @click="cancelTransaction"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,7 +19,7 @@ import { BigNumber, Signer, TransactionResponse } from 'components/models';
 
 function useCancelTransaction() {
   const { signer, userAddress } = useWalletStore();
-  const typedSigner = (signer as unknown) as Signer;
+  const typedSigner = signer.value as Signer;
   const txHash = ref('');
 
   /**
@@ -18,7 +27,7 @@ function useCancelTransaction() {
    */
   async function getGasPrice(): Promise<BigNumber> {
     const rawGasPrice = await typedSigner.getGasPrice();
-    return rawGasPrice.mul('2');
+    return rawGasPrice?.mul('2');
   }
 
   /**
@@ -31,7 +40,7 @@ function useCancelTransaction() {
     // properties from type 'Promise<TransactionResponse>': then, catch, [Symbol.toStringTag], finally
     // @ts-ignore
     const tx: Promise<TransactionResponse> = await typedSigner.sendTransaction({
-      to: (userAddress as unknown) as string,
+      to: userAddress.value,
       gasPrice,
       gasLimit: ethers.BigNumber.from('21000'),
       nonce,
