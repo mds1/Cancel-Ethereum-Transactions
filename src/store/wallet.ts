@@ -1,5 +1,6 @@
 import { computed, ref } from '@vue/composition-api';
 import { ethers } from 'ethers';
+import { Signer, Provider } from 'components/models';
 
 /**
  * State is handled in reusable components, where each component is its own self-contained
@@ -8,11 +9,6 @@ import { ethers } from 'ethers';
  * Since we want the wallet state to be shared between all instances when this file is imported,
  * we defined state outside of the function definition.
  */
-
-// Types ==========================================================================================
-// First we defined a few types for convenience
-type Provider = ethers.providers.Web3Provider;
-type Signer = ethers.providers.JsonRpcSigner;
 
 // State ===========================================================================================
 // We do not publicly expose the state to provide control over when and how it's changed. It
