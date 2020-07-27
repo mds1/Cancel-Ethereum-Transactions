@@ -2,6 +2,8 @@
   "extends": "@quasar/app/tsconfig-preset",
   "compilerOptions": {
     "baseUrl": ".",
+    "skipLibCheck": true,
     "strict": true
-  }
+  },
+  "exclude": ["./node_modules", "./dist"]
 }

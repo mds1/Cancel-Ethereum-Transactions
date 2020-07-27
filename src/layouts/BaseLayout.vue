@@ -13,6 +13,12 @@
 
         <div>
           <div class="row justify-end q-mt-xs">
+            <div
+              v-if="userAddress"
+              class="col-xs-12 dark-toggle text-caption text-right"
+            >
+              {{ userAddress }}
+            </div>
             <q-icon
               class="col-auto dark-toggle"
               :name="$q.dark.isActive ? 'brightness_7' : 'bedtime'"
@@ -45,6 +51,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from '@vue/composition-api';
 import { Dark, LocalStorage } from 'quasar';
+import useWalletStore from 'src/store/wallet';
 
 function useDarkMode() {
   function toggleDarkMode() {
@@ -59,10 +66,16 @@ function useDarkMode() {
   return { toggleDarkMode, mounted };
 }
 
+function useWalletAddress() {
+  const { userAddress } = useWalletStore();
+
+  return { userAddress };
+}
+
 export default defineComponent({
   name: 'BaseLayout',
   setup() {
-    return { ...useDarkMode() };
+    return { ...useDarkMode(), ...useWalletAddress() };
   },
 });
 </script>
