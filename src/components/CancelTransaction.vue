@@ -69,6 +69,20 @@ function useCancelTransaction() {
       txHash.value = String(txr.hash);
       console.log('Transaction sent', txr);
 
+      const t = setInterval(function () {
+        /* eslint-disable */
+        // @ts-ignore
+        if (window.goatcounter && window.goatcounter.count) {
+          clearInterval(t);
+          // @ts-ignore
+          window.goatcounter.count({
+            path: 'transaction-cancelled',
+            event: true,
+          });
+        }
+        /* eslint-disable */
+      }, 100);
+
       await txr.wait();
       console.log('Transaction mined!');
       notifyUser('positive', 'Your cancellation was successful!');
