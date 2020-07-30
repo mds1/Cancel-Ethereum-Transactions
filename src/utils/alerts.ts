@@ -21,16 +21,13 @@ export default function useAlerts() {
    * @param {Any} err Error object thrown
    * @param {Any} msg Optional, fallback error message if one is not provided by the err object
    */
-  /* eslint-disable */
-  function showError(err: any, msg = 'An unknown error occurred') {
+  function showError(err: Error, msg = 'An unknown error occurred') {
     console.error(err);
     if (!err) notifyUser('negative', msg);
-    else if (err.message) notifyUser('negative', err.message);
-    else if (err.msg) notifyUser('negative', err.msg);
+    else if ('message' in err) notifyUser('negative', err.message);
     else if (typeof err === 'string') notifyUser('negative', err);
     else notifyUser('negative', msg);
   }
-  /* eslint-enable */
 
   return {
     notifyUser,

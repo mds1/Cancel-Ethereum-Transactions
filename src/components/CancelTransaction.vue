@@ -23,7 +23,14 @@ import { computed, defineComponent, ref } from '@vue/composition-api';
 import useAlerts from 'src/utils/alerts';
 import useWalletStore from 'src/store/wallet';
 import { ethers } from 'ethers';
-import { BigNumber, Signer, TransactionResponse } from 'components/models';
+import {
+  BigNumber,
+  Signer,
+  TransactionResponse,
+  Window,
+} from 'components/models';
+
+declare let window: Window;
 
 function useCancelTransaction() {
   const { notifyUser, showError } = useAlerts();
@@ -51,39 +58,29 @@ function useCancelTransaction() {
     try {
       const gasPrice = await getGasPrice();
       const nonce = await typedSigner.getTransactionCount();
-      // Ignoring line below to silence: Type 'TransactionResponse' is missing the following
-      // properties from type 'Promise<TransactionResponse>': then, catch, [Symbol.toStringTag], finally
-      // @ts-ignore
-      const tx: Promise<TransactionResponse> = await typedSigner.sendTransaction(
-        {
-          to: userAddress.value,
-          gasPrice,
-          gasLimit: ethers.BigNumber.from('21000'),
-          nonce,
-          value: ethers.BigNumber.from('0'),
-        }
-      );
+      const tx: TransactionResponse = await typedSigner.sendTransaction({
+        to: userAddress.value,
+        gasPrice,
+        gasLimit: ethers.BigNumber.from('21000'),
+        nonce,
+        value: ethers.BigNumber.from('0'),
+      });
 
       isLoading.value = true;
-      const txr = (tx as unknown) as TransactionResponse; // force to type TransactionResponse
-      txHash.value = String(txr.hash);
-      console.log('Transaction sent', txr);
+      txHash.value = String(tx.hash);
+      console.log('Transaction sent', tx);
 
       const t = setInterval(function () {
-        /* eslint-disable */
-        // @ts-ignore
         if (window.goatcounter && window.goatcounter.count) {
           clearInterval(t);
-          // @ts-ignore
           window.goatcounter.count({
             path: 'transaction-cancelled',
             event: true,
           });
         }
-        /* eslint-disable */
       }, 100);
 
-      await txr.wait();
+      await tx.wait();
       console.log('Transaction mined!');
       notifyUser('positive', 'Your cancellation was successful!');
       isLoading.value = false;

@@ -82,7 +82,5 @@ module.exports = {
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-
-    '@typescript-eslint/ban-ts-comment': 'off',
   },
 };
