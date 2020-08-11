@@ -11,75 +11,59 @@
 import { defineComponent } from '@vue/composition-api';
 import { Dark } from 'quasar';
 import useWalletStore from 'src/store/wallet';
-import Onboard from 'bnc-onboard';
+
+import Web3Modal from 'web3modal';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Fortmatic from 'fortmatic';
+import Torus from '@toruslabs/torus-embed';
+import Authereum from 'authereum';
+import UniLogin from '@unilogin/provider';
+import Portis from '@portis/web3';
 
 function useWallet() {
   const { setProvider } = useWalletStore();
 
   async function connectWallet() {
-    const rpcUrl = `https://mainnet.infura.io/v3/${String(
-      process.env.INFURA_ID
-    )}`;
-
-    const wallets = [
-      { walletName: 'metamask', preferred: true },
-      { walletName: 'coinbase', preferred: true },
-      { walletName: 'torus', preferred: true },
-      {
-        walletName: 'ledger',
-        rpcUrl,
-      },
-      // {
-      //   walletName: 'trezor',
-      //   appUrl: APP_URL,
-      //   email: CONTACT_EMAIL,
-      //   rpcUrl,
-      // },
-      {
-        walletName: 'fortmatic',
-        apiKey: process.env.FORTMATIC_API_KEY,
-        preferred: true,
-      },
-      {
-        walletName: 'portis',
-        apiKey: process.env.PORTIS_API_KEY,
-        preferred: true,
-      },
-      { walletName: 'authereum' },
-      {
-        walletName: 'walletConnect',
-        infuraKey: process.env.INFURA_ID,
-      },
-      { walletName: 'trust', rpcUrl },
-      { walletName: 'dapper' },
-      // {
-      //   walletName: 'squarelink',
-      //   apiKey: SQUARELINK_KEY,
-      // },
-      { walletName: 'walletLink', rpcUrl },
-      { walletName: 'opera' },
-      { walletName: 'operaTouch' },
-      { walletName: 'status' },
-      { walletName: 'unilogin' },
-      { walletName: 'imToken', rpcUrl },
-    ];
-
-    const onboard = Onboard({
-      dappId: process.env.BLOCKNATIVE_API_KEY,
-      darkMode: Dark.isActive,
-      networkId: 1,
-      walletSelect: {
-        wallets: wallets,
-      },
-      subscriptions: {
-        wallet: async (wallet) => {
-          await setProvider(wallet.provider);
+    const providerOptions = {
+      walletconnect: {
+        package: WalletConnectProvider,
+        options: {
+          infuraId: process.env.INFURA_ID,
         },
       },
+      fortmatic: {
+        package: Fortmatic,
+        options: {
+          key: process.env.FORTMATIC_API_KEY,
+        },
+      },
+      torus: {
+        package: Torus,
+      },
+      authereum: {
+        package: Authereum, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+      },
+      unilogin: {
+        package: UniLogin,
+      },
+      portis: {
+        package: Portis,
+        options: {
+          id: process.env.PORTIS_API_KEY,
+        },
+      },
+    };
+
+    // eslint-disable-next-line
+    const web3Modal = new Web3Modal({
+      network: 'mainnet',
+      providerOptions,
+      theme: Dark.isActive ? 'dark' : 'light',
     });
 
-    await onboard.walletSelect();
-    await onboard.walletCheck();
+    // eslint-disable-next-line
+    const provider = await web3Modal.connect();
+    await setProvider(provider);
   }
 
   return { connectWallet };
