@@ -4,9 +4,7 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: () => import('layouts/BaseLayout.vue'),
-    children: [
-      { name: 'home', path: '', component: () => import('pages/Home.vue') },
-    ],
+    children: [{ name: 'home', path: '', component: () => import('pages/Home.vue') }],
   },
 
   // Always leave this as last one,

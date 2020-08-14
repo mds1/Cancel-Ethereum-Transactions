@@ -115,8 +115,7 @@ module.exports = configure(function (ctx) {
       manifest: {
         name: 'Cancel Ethereum Transactions',
         short_name: 'Cancel Ethereum Transactions',
-        description:
-          'The easiest way to cancel pending transactions on Ethereum',
+        description: 'The easiest way to cancel pending transactions on Ethereum',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

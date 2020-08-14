@@ -13,10 +13,7 @@
 
         <div>
           <div class="row justify-end q-mt-xs">
-            <div
-              v-if="userAddress"
-              class="col-xs-12 dark-toggle text-caption text-right"
-            >
+            <div v-if="userAddress" class="col-xs-12 dark-toggle text-caption text-right">
               {{ userAddress }}
             </div>
             <q-icon
@@ -37,12 +34,7 @@
     <q-footer style="color: #000000; background-color: rgba(0, 0, 0, 0);">
       <div class="dark-toggle text-center text-caption q-my-xl">
         Built by
-        <a
-          href="https://twitter.com/msolomon44"
-          target="_blank"
-          class="hyperlink"
-          >Matt Solomon</a
-        >
+        <a href="https://twitter.com/msolomon44" target="_blank" class="hyperlink">Matt Solomon</a>
       </div>
     </q-footer>
   </q-layout>

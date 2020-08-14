@@ -3,11 +3,7 @@
     <div class="text-h6">
       Easily cancel your pending transaction with the button below.
     </div>
-    <img
-      class="cancel-button q-mt-xl"
-      src="~assets/easy-button.png"
-      @click="cancelTransaction"
-    />
+    <img class="cancel-button q-mt-xl" src="~assets/easy-button.png" @click="cancelTransaction" />
     <div class="q-mt-xl">
       <q-checkbox v-model="buyBeer">
         <span style="font-size: 1.1rem;">Buy me a beer 🍺</span>
@@ -41,21 +37,11 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  ref,
-} from '@vue/composition-api';
+import { computed, defineComponent, onMounted, ref } from '@vue/composition-api';
 import useAlerts from 'src/utils/alerts';
 import useWalletStore from 'src/store/wallet';
 import { ethers } from 'ethers';
-import {
-  BigNumber,
-  Signer,
-  TransactionResponse,
-  Window,
-} from 'components/models';
+import { BigNumber, Signer, TransactionResponse, Window } from 'components/models';
 
 declare let window: Window;
 
@@ -70,8 +56,7 @@ function useEthUsdPrice() {
 
   onMounted(async () => {
     try {
-      const url =
-        'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd';
+      const url = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd';
       const response = await fetch(url);
       const json = (await response.json()) as Price;
       ethUsdPrice.value = Number(json.ethereum.usd);
@@ -92,9 +77,7 @@ function useCancelTransaction() {
   const beerPrice = ref(0.01); // in ETH
   const txHash = ref('');
   const isLoading = ref(false);
-  const etherscanUrl = computed(
-    () => `https://etherscan.io/tx/${txHash.value}`
-  );
+  const etherscanUrl = computed(() => `https://etherscan.io/tx/${txHash.value}`);
 
   /**
    * @notice Gets gas price from the node and doubles it to ensure it gets mined quicky
