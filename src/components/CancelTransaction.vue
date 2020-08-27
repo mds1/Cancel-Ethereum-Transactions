@@ -70,6 +70,7 @@
 
     <!-- Transaction status -->
     <div v-if="isLoading" class="q-mt-xl">
+      <q-spinner color="primary" size="3em" />
       <div class="text-italic q-mt-md">Your transaction is processing...</div>
       <div class="text-caption">
         View on
