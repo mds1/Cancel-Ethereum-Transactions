@@ -1,24 +1,22 @@
 <template>
-  <div>
-    <div class="text-h6 q-mb-xl">
-      Connect a wallet to cancel any pending transactions
-    </div>
-    <q-btn color="primary" label="Connect wallet" @click="connectWallet" />
+  <div @click="connectWallet">
+    <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, SetupContext } from '@vue/composition-api';
 import { Dark } from 'quasar';
 import useWalletStore from 'src/store/wallet';
 import Onboard from 'bnc-onboard';
 
-function useWallet() {
+function useWallet(context: SetupContext, redirectTo: string) {
   const { setProvider } = useWalletStore();
 
   async function connectWallet() {
     const rpcUrl = `https://mainnet.infura.io/v3/${String(process.env.INFURA_ID)}`;
 
+    // Definea available wallets
     const wallets = [
       { walletName: 'metamask', preferred: true },
       { walletName: 'coinbase', preferred: true },
@@ -67,6 +65,7 @@ function useWallet() {
       },
     ];
 
+    // Connect wallet
     const onboard = Onboard({
       dappId: process.env.BLOCKNATIVE_API_KEY,
       darkMode: Dark.isActive,
@@ -82,6 +81,9 @@ function useWallet() {
     });
     await onboard.walletSelect();
     await onboard.walletCheck();
+
+    // Redirect to specified page
+    await context.root.$router.push({ name: redirectTo });
   }
 
   return { connectWallet };
@@ -90,8 +92,16 @@ function useWallet() {
 export default defineComponent({
   name: 'ConnectWallet',
 
-  setup() {
-    return { ...useWallet() };
+  props: {
+    // Page name to redirect to after logging in
+    redirectTo: {
+      type: String,
+      required: true,
+    },
+  },
+
+  setup(props, context) {
+    return { ...useWallet(context, props.redirectTo) };
   },
 });
 </script>

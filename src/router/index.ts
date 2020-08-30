@@ -21,5 +21,17 @@ export default route(function ({ Vue }) {
     base: process.env.VUE_ROUTER_BASE,
   });
 
+  Router.beforeEach((to, from, next) => {
+    // Only allow user to navigate directly to home page
+    // Navigating to home page is allowed. Navigating to cancel or speedUp without visiting
+    // home page is not allowed. This is to ensure the user connects a wallet first
+    if (to.name === 'home') {
+      next();
+    } else if (from.name === null) {
+      next({ name: 'home' });
+    }
+    next();
+  });
+
   return Router;
 });

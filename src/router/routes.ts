@@ -4,7 +4,15 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: () => import('layouts/BaseLayout.vue'),
-    children: [{ name: 'home', path: '', component: () => import('pages/Home.vue') }],
+    children: [
+      { name: 'home', path: '', component: () => import('pages/Home.vue') },
+      { name: 'cancel', path: '/cancel', component: () => import('pages/TransactionCancel.vue') },
+      {
+        name: 'speedUp',
+        path: '/speed-up',
+        component: () => import('pages/TransactionSpeedUp.vue'),
+      },
+    ],
   },
 
   // Always leave this as last one,

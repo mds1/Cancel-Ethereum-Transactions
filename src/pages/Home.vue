@@ -1,22 +1,44 @@
 <template>
   <q-page padding class="text-center">
-    <connect-wallet v-if="!userAddress" />
-    <cancel-transaction v-else />
+    <div>
+      What would you like to do?
+      <div class="row justify-center q-mt-lg">
+        <!-- Cancel Transaction -->
+        <q-card class="card-border col-xs-4 col-sm-3 col-md-2 q-py-md q-mr-md">
+          <connect-wallet redirect-to="cancel">
+            <q-card-section>
+              <q-icon class="text-gradient q-px-xs" name="fas fa-trash-alt" size="3rem" />
+            </q-card-section>
+            <q-card-section>
+              <span style="font-size: 1.1rem;"> Cancel </span>
+              <br /><span>Transaction</span>
+            </q-card-section>
+          </connect-wallet>
+        </q-card>
+
+        <!-- Speed up transaction -->
+        <q-card class="card-border col-xs-4 col-sm-3 col-md-2 q-py-md q-ml-md">
+          <connect-wallet redirect-to="speedUp">
+            <q-card-section>
+              <q-icon class="text-gradient q-px-xs" name="fas fa-tachometer-alt" size="3rem" />
+            </q-card-section>
+            <q-card-section>
+              <span style="font-size: 1.1rem;"> Speed Up </span>
+              <br /><span>Transaction</span>
+            </q-card-section>
+          </connect-wallet>
+        </q-card>
+      </div>
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import CancelTransaction from 'components/CancelTransaction.vue';
 import ConnectWallet from 'components/ConnectWallet.vue';
-import useWalletStore from 'src/store/wallet';
 
 export default defineComponent({
   name: 'PageHome',
-  components: { CancelTransaction, ConnectWallet },
-  setup() {
-    const { userAddress } = useWalletStore();
-    return { userAddress };
-  },
+  components: { ConnectWallet },
 });
 </script>

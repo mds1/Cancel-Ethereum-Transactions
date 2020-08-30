@@ -3,12 +3,9 @@
     <q-header style="color: #000000; background-color: rgba(0, 0, 0, 0);">
       <q-toolbar>
         <q-toolbar-title class="row justify-start items-center q-my-md">
-          <img
-            alt="Ethereum logo"
-            class="col-auto"
-            src="~assets/app-icon.png"
-            style="max-width: 50px;"
-          />
+          <router-link class="col-auto" :to="{ name: 'home' }">
+            <img alt="Ethereum logo" src="~assets/app-icon.png" style="max-width: 50px;" />
+          </router-link>
         </q-toolbar-title>
 
         <div>
@@ -18,7 +15,7 @@
             </div>
             <q-icon
               class="col-auto dark-toggle"
-              :name="$q.dark.isActive ? 'brightness_7' : 'bedtime'"
+              :name="$q.dark.isActive ? 'fas fa-sun' : 'fas fa-moon'"
               style="cursor: pointer;"
               @click="toggleDarkMode()"
             />
