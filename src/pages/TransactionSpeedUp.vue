@@ -1,19 +1,39 @@
 <template>
   <q-page padding class="text-center">
     <div>
-      <!-- Header section -->
+      <!-- Warnings -->
       <div class="is-beta">
         <div class="row justify-center items-center">
-          <q-icon class="col-auto" color="warning" left name="fas fa-exclamation-triangle" />
-          <div class="col-auto">
-            This functionality is in beta and may not work properly! Please
-            <a href="https://twitter.com/msolomon44" target="_blank" class="hyperlink">
-              contact me
-            </a>
-            with any issues or feedback.
+          <q-icon
+            class="col-xs-1 q-mb-sm"
+            color="warning"
+            left
+            name="fas fa-exclamation-triangle"
+          />
+          <div class="col-xs-10">
+            Note: This functionality is in beta and may not work properly! If your transaction is
+            not found, you will have to cancel your transaction instead until a solution is
+            available.
           </div>
         </div>
       </div>
+      <div class="is-beta">
+        <div class="row justify-center items-center">
+          <q-icon
+            class="col-xs-1 q-mb-sm"
+            color="warning"
+            left
+            name="fas fa-exclamation-triangle"
+          />
+          <div class="col-xs-10">
+            Warning: Do not use this functionality to speed up trades, such as on Uniswap. Due to
+            price changes your transaction is very likely to fail, and you will lose the transaction
+            costs.
+          </div>
+        </div>
+      </div>
+
+      <!-- Header section -->
       <div class="text-h4">
         Speed Up Transaction
       </div>
@@ -140,6 +160,9 @@ function useSpeedUpTransaction() {
     try {
       // Fetch slow transaction
       slowTx.value = await (provider.value as Provider).getTransaction(slowTxHash.value.trim());
+      if (slowTx.value === undefined || slowTx.value === null) {
+        throw new Error('Transaction not found');
+      }
       slowTxRetrieved.value = true;
       console.log('slowTx.value: ', slowTx.value);
 
@@ -150,7 +173,6 @@ function useSpeedUpTransaction() {
       setTxData(slowTx.value.data);
       setTxValue(slowTx.value.value);
     } catch (e) {
-      console.log(123);
       slowTx.value = undefined;
       slowTxRetrieved.value = false;
       console.error(e);
