@@ -7,7 +7,7 @@
         <q-card class="card-border col-xs-4 col-sm-3 col-md-2 q-py-md q-mr-md">
           <connect-wallet redirect-to="cancel">
             <q-card-section>
-              <q-icon class="text-gradient q-px-xs" name="fas fa-trash-alt" size="3rem" />
+              <img src="~assets/fa-trash.png" style="height: 3rem;" />
             </q-card-section>
             <q-card-section>
               <span style="font-size: 1.1rem;"> Cancel </span>
@@ -20,7 +20,7 @@
         <q-card class="card-border col-xs-4 col-sm-3 col-md-2 q-py-md q-ml-md">
           <connect-wallet redirect-to="speedUp">
             <q-card-section>
-              <q-icon class="text-gradient q-px-xs" name="fas fa-tachometer-alt" size="3rem" />
+              <img src="~assets/fa-speedometer.png" style="height: 3rem;" />
             </q-card-section>
             <q-card-section>
               <span style="font-size: 1.1rem;"> Speed Up </span>
