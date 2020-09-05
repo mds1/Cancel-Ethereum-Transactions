@@ -5,30 +5,15 @@
       <div class="is-beta">
         <div class="row justify-center items-center">
           <q-icon
-            class="col-xs-1 q-mb-sm"
+            class="col-auto q-mb-sm"
             color="warning"
             left
             name="fas fa-exclamation-triangle"
           />
-          <div class="col-xs-10">
-            Note: This functionality is in beta and may not work properly! If your transaction is
-            not found, you will have to cancel your transaction instead until a solution is
-            available.
-          </div>
-        </div>
-      </div>
-      <div class="is-beta">
-        <div class="row justify-center items-center">
-          <q-icon
-            class="col-xs-1 q-mb-sm"
-            color="warning"
-            left
-            name="fas fa-exclamation-triangle"
-          />
-          <div class="col-xs-10">
-            Warning: Do not use this functionality to speed up trades, such as on Uniswap. Due to
-            price changes your transaction is very likely to fail, and you will lose the transaction
-            costs.
+          <div class="col text-justify">
+            <span class="text-bold">Warning</span>: Do not use this functionality to speed up
+            trades, such as on Uniswap. Due to price changes your transaction is very likely to
+            fail, and you will lose the transaction costs. Use this tool at your own risk.
           </div>
         </div>
       </div>
@@ -38,43 +23,64 @@
         Speed Up Transaction
       </div>
       <div class="q-mb-md q-mt-sm">
-        Enter a transaction hash, then click the button below
+        <span v-if="!useManualApproach">Enter a transaction hash, then click the button below</span>
+        <span v-else>Complete the form, then click the button below</span>
       </div>
 
       <!-- Advanced settings -->
       <settings-advanced class="q-mb-xl" />
 
       <!-- Get transaction hash -->
-      <div style="margin: 0 auto;">
-        <div class="q-mb-sm">
-          Enter the transaction hash of the transaction you want to speed up
+      <div style="max-width: 500px; margin: 0 auto;">
+        <!-- Automatic approach -->
+        <div v-if="!useManualApproach">
+          <div class="q-mb-sm">
+            Enter the transaction hash of the transaction you want to speed up
+          </div>
+          <div style="margin: 0 auto;">
+            <q-input
+              v-model="slowTxHash"
+              filled
+              hide-bottom-space
+              label="Transaction Hash"
+              @input="getSlowTxData"
+            />
+            <div v-if="slowTxRetrieved" class="row justify-start items-center q-mt-sm">
+              <q-icon color="positive" left name="fas fa-check-circle" />
+              <div class="text-caption">
+                Transaction found
+              </div>
+            </div>
+            <div
+              v-else-if="slowTxHash && !slowTxRetrieved"
+              class="row justify-start items-center q-mt-sm"
+            >
+              <q-icon color="warning" left name="fas fa-exclamation-triangle" />
+              <div class="text-caption">
+                Transaction not found.
+                <div class="hyperlink" @click="useManualApproach = true">
+                  Use manual approach
+                </div>
+                .
+              </div>
+            </div>
+            <div v-else>
+              &nbsp;
+            </div>
+          </div>
         </div>
-        <div style="max-width: 500px; margin: 0 auto;">
+        <!-- Manual approach -->
+        <div v-else>
+          <q-input v-model="overrideTo" class="q-mb-sm" filled hide-bottom-space label="To" />
           <q-input
-            v-model="slowTxHash"
+            v-model="overrideGasLimit"
+            class="q-mb-sm"
             filled
             hide-bottom-space
-            label="Transaction Hash"
-            @input="getSlowTxData"
+            label="Gas Limit"
           />
-          <div v-if="slowTxRetrieved" class="row justify-start items-center q-mt-sm">
-            <q-icon color="positive" left name="fas fa-check-circle" />
-            <div class="text-caption">
-              Transaction found
-            </div>
-          </div>
-          <div
-            v-else-if="slowTxHash && !slowTxRetrieved"
-            class="row justify-start items-center q-mt-sm"
-          >
-            <q-icon color="warning" left name="fas fa-exclamation-triangle" />
-            <div class="text-caption">
-              Transaction not found
-            </div>
-          </div>
-          <div v-else>
-            &nbsp;
-          </div>
+          <q-input v-model="overrideData" class="q-mb-sm" filled hide-bottom-space label="Data" />
+          <q-input v-model="overrideValue" class="q-mb-sm" filled hide-bottom-space label="Value" />
         </div>
       </div>
 
@@ -140,6 +146,7 @@ import { Provider, Signer, TransactionResponse, Window } from 'components/models
 declare let window: Window;
 
 function useSpeedUpTransaction() {
+  const { setTxTo, setTxNonce, setTxGasLimit, setTxData, setTxValue } = useTxStore();
   const { notifyUser, showError } = useAlerts();
   const { signer } = useWalletStore();
 
@@ -152,11 +159,16 @@ function useSpeedUpTransaction() {
   const slowTx = ref<TransactionResponse>();
   const { provider } = useWalletStore();
 
+  const useManualApproach = ref(false);
+  const overrideTo = ref('');
+  const overrideGasLimit = ref('');
+  const overrideData = ref('');
+  const overrideValue = ref('');
+
   const buyBeer = ref(true);
   const beerPrice = ref(0.01); // in ETH
 
   async function getSlowTxData() {
-    const { setTxTo, setTxNonce, setTxGasLimit, setTxData, setTxValue } = useTxStore();
     try {
       // Fetch slow transaction
       slowTx.value = await (provider.value as Provider).getTransaction(slowTxHash.value.trim());
@@ -184,13 +196,31 @@ function useSpeedUpTransaction() {
    */
   async function speedUpTransaction() {
     try {
-      if (typeof slowTx.value === 'undefined') {
+      // If trying the automated approach, make sure a transaction hash was provided
+      if (!useManualApproach.value && typeof slowTx.value === 'undefined') {
         throw new Error('Please enter a transaction hash');
       }
 
-      // We only reuse the to, gasLimit, value, and data fields from the slow transaction
+      // If using the manual approach, apply overrides
+      if (useManualApproach.value) {
+        if (
+          overrideTo.value === '' ||
+          overrideGasLimit.value === '' ||
+          overrideData.value === '' ||
+          overrideValue.value === ''
+        ) {
+          throw new Error('Please complete the full form');
+        }
+        setTxTo(overrideTo.value);
+        setTxGasLimit(overrideGasLimit.value);
+        setTxData(overrideData.value);
+        setTxValue(ethers.utils.parseEther(overrideValue.value));
+      }
+
       const { txPayload } = useTxStore();
       console.log('newTx: ', txPayload.value);
+
+      // We only reuse the to, gasLimit, value, and data fields from the slow transaction
       const tx: TransactionResponse = await (signer.value as Signer).sendTransaction({
         to: txPayload.value.to,
         nonce: txPayload.value.nonce,
@@ -246,6 +276,11 @@ function useSpeedUpTransaction() {
     getSlowTxData,
     buyBeer,
     beerPrice,
+    useManualApproach,
+    overrideTo,
+    overrideGasLimit,
+    overrideData,
+    overrideValue,
   };
 }
 
