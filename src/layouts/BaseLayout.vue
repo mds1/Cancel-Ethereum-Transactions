@@ -1,14 +1,57 @@
 <template>
   <q-layout view="hhh Lpr fff">
     <q-header style="color: #000000; background-color: rgba(0, 0, 0, 0);">
-      <q-toolbar>
-        <q-toolbar-title class="row justify-start items-center q-my-md">
-          <router-link class="col-auto" :to="{ name: 'home' }">
-            <img alt="Ethereum logo" src="~assets/app-icon.png" style="max-width: 50px;" />
-          </router-link>
+      <q-toolbar class="row justify-between items-center q-my-md">
+        <q-toolbar-title class="col">
+          <!-- Logo and nav bar -->
+          <div class="row justify-start items-center">
+            <router-link class="col-auto" tag="div" :to="{ name: 'home' }" style="line-height: 0;">
+              <img alt="Ethereum logo" src="~assets/app-icon.png" style="max-width: 50px;" />
+            </router-link>
+
+            <router-link
+              active-class="is-active"
+              class="col-auto cursor-pointer dark-toggle q-ml-lg"
+              exact
+              tag="div"
+              :to="{ name: 'home' }"
+            >
+              <span style="font-size: 1rem;">Home</span>
+            </router-link>
+
+            <router-link
+              active-class="is-active"
+              class="col-auto cursor-pointer dark-toggle q-ml-lg"
+              tag="div"
+              :to="{ name: 'help' }"
+            >
+              <span style="font-size: 1rem;">Help</span>
+            </router-link>
+
+            <router-link
+              v-if="userAddress"
+              active-class="is-active"
+              class="col-auto cursor-pointer dark-toggle q-ml-lg"
+              tag="div"
+              :to="{ name: 'cancel' }"
+            >
+              <span style="font-size: 1rem;">Cancel</span>
+            </router-link>
+
+            <router-link
+              v-if="userAddress"
+              active-class="is-active"
+              class="col-auto cursor-pointer dark-toggle q-ml-lg"
+              tag="div"
+              :to="{ name: 'speedUp' }"
+            >
+              <span style="font-size: 1rem;">Speed Up</span>
+            </router-link>
+          </div>
         </q-toolbar-title>
 
-        <div>
+        <!-- Login address and settings -->
+        <div class="col">
           <div class="row justify-end q-mt-xs">
             <div v-if="userAddress" class="col-xs-12 dark-toggle text-caption text-right">
               {{ userAddress }}
@@ -68,3 +111,8 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="sass" scoped>
+.is-active
+  font-weight: bold
+</style>

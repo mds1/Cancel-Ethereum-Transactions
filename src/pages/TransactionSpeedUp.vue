@@ -11,9 +11,12 @@
             name="fas fa-exclamation-triangle"
           />
           <div class="col text-justify">
-            <span class="text-bold">Warning</span>: Do not use this functionality to speed up
-            trades, such as on Uniswap. Due to price changes your transaction is very likely to
-            fail, and you will lose the transaction costs. Use this tool at your own risk.
+            <span class="text-bold">Warning</span>: When speeding up a transaction there is a risk
+            your transaction may fail. Please see the
+            <router-link :to="{ name: 'help' }" class="hyperlink">
+              Help
+            </router-link>
+            page for more details.
           </div>
         </div>
       </div>
@@ -31,7 +34,7 @@
       <settings-advanced class="q-mb-xl" />
 
       <!-- Get transaction hash -->
-      <div style="max-width: 500px; margin: 0 auto;">
+      <div class="container">
         <!-- Automatic approach -->
         <div v-if="!useManualApproach">
           <div class="q-mb-sm">
@@ -61,7 +64,6 @@
                 <div class="hyperlink" @click="useManualApproach = true">
                   Use manual approach
                 </div>
-                .
               </div>
             </div>
             <div v-else>

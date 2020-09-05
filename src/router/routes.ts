@@ -6,6 +6,7 @@ const routes: RouteConfig[] = [
     component: () => import('layouts/BaseLayout.vue'),
     children: [
       { name: 'home', path: '', component: () => import('pages/Home.vue') },
+      { name: 'help', path: '/help', component: () => import('pages/Help.vue') },
       { name: 'cancel', path: '/cancel', component: () => import('pages/TransactionCancel.vue') },
       {
         name: 'speedUp',
