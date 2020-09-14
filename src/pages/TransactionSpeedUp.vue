@@ -214,7 +214,7 @@ function useSpeedUpTransaction() {
           throw new Error('Please complete the full form');
         }
         setTxTo(overrideTo.value);
-        setTxGasLimit(overrideGasLimit.value);
+        setTxGasLimit(ethers.BigNumber.from(overrideGasLimit.value));
         setTxData(overrideData.value);
         setTxValue(ethers.utils.parseEther(overrideValue.value));
       }
