@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hhh Lpr fff">
+  <q-layout view="hhh Lpr fff" style="z-index: 0;">
     <q-header style="color: #000000; background-color: rgba(0, 0, 0, 0);">
       <q-toolbar class="row justify-between items-center q-my-md">
         <q-toolbar-title class="col">
