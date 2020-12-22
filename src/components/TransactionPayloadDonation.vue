@@ -11,7 +11,7 @@
           v-model.number="beerPrice"
           dense
           input-class="text-center text-caption"
-          step="0.01"
+          step="0.001"
           style="max-width: 50px; display: inline-block;"
           type="number"
           @input="setTxPayload"
@@ -37,7 +37,7 @@ function useDonationData() {
   const { setTxTo, setTxValue } = useTxStore();
 
   const buyBeer = ref(true);
-  const beerPrice = ref(0.01); // in ETH
+  const beerPrice = ref(0.005); // in ETH
 
   function setTxPayload() {
     const donationAddress = '0x3a9bE12aB20Ef966f35325763C21EAa764D639C3';

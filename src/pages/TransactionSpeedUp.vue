@@ -110,7 +110,7 @@
               v-model.number="beerPrice"
               dense
               input-class="text-center text-caption"
-              step="0.01"
+              step="0.001"
               style="max-width: 50px; display: inline-block;"
               type="number"
             />&nbsp;ETH
@@ -168,7 +168,7 @@ function useSpeedUpTransaction() {
   const overrideValue = ref('');
 
   const buyBeer = ref(true);
-  const beerPrice = ref(0.01); // in ETH
+  const beerPrice = ref(0.005); // in ETH
 
   async function getSlowTxData() {
     try {
