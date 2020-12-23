@@ -240,7 +240,7 @@ function useSpeedUpTransaction() {
         if (window.goatcounter && window.goatcounter.count) {
           clearInterval(t);
           window.goatcounter.count({
-            path: 'transaction-cancelled',
+            path: 'transaction-speedup-2',
             event: true,
           });
         }
