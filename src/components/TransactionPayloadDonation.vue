@@ -41,8 +41,9 @@ function useDonationData() {
 
   function setTxPayload() {
     const donationAddress = '0x3a9bE12aB20Ef966f35325763C21EAa764D639C3';
-    const recipient = buyBeer.value ? donationAddress : userAddress.value;
-    const amount = buyBeer.value
+    const isDonating = buyBeer.value && beerPrice.value > 0; // make sure checkbox is ticked and amount is above zero
+    const recipient = isDonating ? donationAddress : userAddress.value;
+    const amount = isDonating
       ? ethers.utils.parseEther(String(beerPrice.value))
       : ethers.constants.Zero;
     setTxValue(amount);
