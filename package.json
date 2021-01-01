@@ -8,14 +8,14 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "prettier": "npx prettier --write .",
-    "dev": "npx quasar dev",
-    "build": "npx quasar build && firebase deploy"
+    "prettier": "prettier --write .",
+    "dev": "quasar dev",
+    "build": "quasar build && firebase deploy"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npx quasar build",
-      "pre-push": "lint-staged && npx quasar build"
+      "pre-commit": "lint-staged && quasar build",
+      "pre-push": "lint-staged && quasar build"
     }
   },
   "dependencies": {
