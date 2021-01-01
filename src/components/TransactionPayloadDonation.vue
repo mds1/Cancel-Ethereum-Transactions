@@ -50,7 +50,21 @@ function useDonationData() {
     setTxTo(String(recipient));
   }
 
-  onMounted(() => setTxPayload());
+  onMounted(() => {
+    // Set donation amount, in ETH, to be about $3 based on current ETH price. Since we truncate to
+    // 3 decimals for readability/clarity the default donation value may fluctuate between about $2–$4
+    try {
+      const { ethUsdPrice } = useEthUsdPrice();
+      const targetDonationAmount = 3; // in USD
+      beerPrice.value = Number((targetDonationAmount / ethUsdPrice.value).toFixed(3)); // 3 decimal places
+    } catch (e) {
+      console.log('Could not calculate beer price, so using default value');
+      console.warn(e);
+    }
+
+    // Set default transaction payload
+    setTxPayload();
+  });
 
   return { buyBeer, beerPrice, setTxPayload };
 }

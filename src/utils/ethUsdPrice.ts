@@ -1,5 +1,9 @@
 import { onMounted, ref } from '@vue/composition-api';
 
+// Keeping this declaration outside the main function ensures the value is shared between instances,
+// allowing us to fetch the price when we first load the app
+const ethUsdPrice = ref(0);
+
 /**
  * @notice Gets ETH/USD price
  */
@@ -9,8 +13,6 @@ export default function useEthUsdPrice() {
       usd: string;
     };
   }
-
-  const ethUsdPrice = ref(0);
 
   onMounted(async () => {
     try {

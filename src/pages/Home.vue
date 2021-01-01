@@ -36,9 +36,14 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import ConnectWallet from 'components/ConnectWallet.vue';
+import useEthUsdPrice from 'src/utils/ethUsdPrice';
 
 export default defineComponent({
   name: 'PageHome',
   components: { ConnectWallet },
+  setup() {
+    // Fetch ETH/USD price on page load
+    useEthUsdPrice();
+  },
 });
 </script>
