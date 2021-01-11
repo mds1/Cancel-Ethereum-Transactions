@@ -8,10 +8,12 @@
 import { defineComponent, SetupContext } from '@vue/composition-api';
 import { Dark } from 'quasar';
 import useWalletStore from 'src/store/wallet';
+import useAnalytics from 'src/utils/analytics';
 import Onboard from 'bnc-onboard';
 
 function useWallet(context: SetupContext, redirectTo: string) {
   const { setProvider } = useWalletStore();
+  const { logEvent } = useAnalytics();
 
   async function connectWallet() {
     const rpcUrl = `https://mainnet.infura.io/v3/${String(process.env.INFURA_ID)}`;
@@ -75,6 +77,7 @@ function useWallet(context: SetupContext, redirectTo: string) {
       },
       subscriptions: {
         wallet: async (wallet) => {
+          logEvent(`Connected wallet: ${String(wallet.name)}`);
           await setProvider(wallet.provider);
         },
       },

@@ -38,15 +38,15 @@ import SettingsAdvanced from 'components/SettingsAdvanced.vue';
 import TransactionPayloadDonation from 'components/TransactionPayloadDonation.vue';
 
 import useAlerts from 'src/utils/alerts';
+import useAnalytics from 'src/utils/analytics';
 import useWalletStore from 'src/store/wallet';
 import useTxStore from 'src/store/tx';
-import { Signer, TransactionResponse, Window } from 'components/models';
-
-declare let window: Window;
+import { Signer, TransactionResponse } from 'components/models';
 
 function useCancelTransaction() {
   const { notifyUser, showError } = useAlerts();
   const { signer } = useWalletStore();
+  const { logEvent } = useAnalytics();
 
   const txHash = ref('');
   const isLoading = ref(false);
@@ -71,15 +71,7 @@ function useCancelTransaction() {
       txHash.value = String(tx.hash);
       console.log('Transaction sent', tx);
 
-      const t = setInterval(function () {
-        if (window.goatcounter && window.goatcounter.count) {
-          clearInterval(t);
-          window.goatcounter.count({
-            path: 'transaction-cancelled-2',
-            event: true,
-          });
-        }
-      }, 100);
+      logEvent('transaction-cancelled-2');
 
       await tx.wait();
       console.log('Transaction mined!');

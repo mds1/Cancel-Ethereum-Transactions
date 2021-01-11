@@ -114,16 +114,16 @@ import { computed, defineComponent, ref } from '@vue/composition-api';
 import { ethers } from 'ethers';
 import SettingsAdvanced from 'components/SettingsAdvanced.vue';
 import useAlerts from 'src/utils/alerts';
+import useAnalytics from 'src/utils/analytics';
 import useEthUsdPrice from 'src/utils/ethUsdPrice';
 import useWalletStore from 'src/store/wallet';
 import useTxStore from 'src/store/tx';
-import { Provider, Signer, TransactionResponse, Window } from 'components/models';
-
-declare let window: Window;
+import { Provider, Signer, TransactionResponse } from 'components/models';
 
 function useSpeedUpTransaction() {
   const { setTxTo, setTxNonce, setTxGasLimit, setTxData, setTxValue } = useTxStore();
   const { notifyUser, showError } = useAlerts();
+  const { logEvent } = useAnalytics();
   const { signer } = useWalletStore();
 
   const txHash = ref('');
@@ -210,15 +210,7 @@ function useSpeedUpTransaction() {
       txHash.value = String(tx.hash);
       console.log('Transaction sent', tx);
 
-      const t = setInterval(function () {
-        if (window.goatcounter && window.goatcounter.count) {
-          clearInterval(t);
-          window.goatcounter.count({
-            path: 'transaction-speedup-2',
-            event: true,
-          });
-        }
-      }, 100);
+      logEvent('transaction-speedup-2');
 
       // Speed up transaction sent, now we send donation transaction
       if (buyBeer.value) {
