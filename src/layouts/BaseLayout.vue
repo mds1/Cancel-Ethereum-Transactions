@@ -72,9 +72,24 @@
     </q-page-container>
 
     <q-footer style="color: #000000; background-color: rgba(0, 0, 0, 0);">
-      <div class="dark-toggle text-center text-caption q-my-xl">
-        Built by
-        <a href="https://twitter.com/msolomon44" target="_blank" class="hyperlink">Matt Solomon</a>
+      <div class="row justify-between dark-toggle text-caption q-my-xl q-mx-md">
+        <!-- Empty first column: lazy way to make second column approximately centered and third column right-aligned -->
+        <div class="col-auto"></div>
+        <div class="col-auto">
+          Built by
+          <a href="https://twitter.com/msolomon44" target="_blank" class="hyperlink">
+            Matt Solomon
+          </a>
+        </div>
+        <div class="col-auto">
+          <a
+            href="https://github.com/mds1/Cancel-Ethereum-Transactions"
+            target="_blank"
+            class="dark-toggle no-text-decoration"
+          >
+            <q-icon name="fab fa-github" size="sm" />
+          </a>
+        </div>
       </div>
     </q-footer>
   </q-layout>
