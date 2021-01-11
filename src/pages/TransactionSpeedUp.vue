@@ -4,15 +4,10 @@
       <!-- Warnings -->
       <div class="is-beta">
         <div class="row justify-center items-center">
-          <q-icon
-            class="col-auto q-mb-sm"
-            color="warning"
-            left
-            name="fas fa-exclamation-triangle"
-          />
+          <q-icon class="col-auto q-mb-sm" color="warning" left name="fas fa-exclamation-triangle" />
           <div class="col text-justify">
-            <span class="text-bold">Warning</span>: When speeding up a transaction there is a risk
-            your transaction may fail. Please see the
+            <span class="text-bold">Warning</span>: When speeding up a transaction there is a risk your transaction may
+            fail. Please see the
             <router-link :to="{ name: 'help' }" class="hyperlink">
               Help
             </router-link>
@@ -41,23 +36,14 @@
             Enter the transaction hash of the transaction you want to speed up
           </div>
           <div style="margin: 0 auto;">
-            <q-input
-              v-model="slowTxHash"
-              filled
-              hide-bottom-space
-              label="Transaction Hash"
-              @input="getSlowTxData"
-            />
+            <q-input v-model="slowTxHash" filled hide-bottom-space label="Transaction Hash" @input="getSlowTxData" />
             <div v-if="slowTxRetrieved" class="row justify-start items-center q-mt-sm">
               <q-icon color="positive" left name="fas fa-check-circle" />
               <div class="text-caption">
                 Transaction found
               </div>
             </div>
-            <div
-              v-else-if="slowTxHash && !slowTxRetrieved"
-              class="row justify-start items-center q-mt-sm"
-            >
+            <div v-else-if="slowTxHash && !slowTxRetrieved" class="row justify-start items-center q-mt-sm">
               <q-icon color="warning" left name="fas fa-exclamation-triangle" />
               <div class="text-caption">
                 Transaction not found.
@@ -74,24 +60,14 @@
         <!-- Manual approach -->
         <div v-else>
           <q-input v-model="overrideTo" class="q-mb-sm" filled hide-bottom-space label="To" />
-          <q-input
-            v-model="overrideGasLimit"
-            class="q-mb-sm"
-            filled
-            hide-bottom-space
-            label="Gas Limit"
-          />
+          <q-input v-model="overrideGasLimit" class="q-mb-sm" filled hide-bottom-space label="Gas Limit" />
           <q-input v-model="overrideData" class="q-mb-sm" filled hide-bottom-space label="Data" />
           <q-input v-model="overrideValue" class="q-mb-sm" filled hide-bottom-space label="Value" />
         </div>
       </div>
 
       <!-- Cancel button -->
-      <img
-        class="cancel-button q-my-lg"
-        src="~assets/easy-button.png"
-        @click="speedUpTransaction"
-      />
+      <img class="cancel-button q-my-lg" src="~assets/easy-button.png" @click="speedUpTransaction" />
 
       <!-- Donation section -->
       <!-- 
@@ -114,9 +90,7 @@
               style="max-width: 50px; display: inline-block;"
               type="number"
             />&nbsp;ETH
-            <span v-if="ethUsdPrice !== 0">
-              (about ${{ Math.round(Number(ethUsdPrice * beerPrice)) }})
-            </span>
+            <span v-if="ethUsdPrice !== 0"> (about ${{ Math.round(Number(ethUsdPrice * beerPrice)) }}) </span>
             to the developer as a second transaction
           </span>
         </div>
