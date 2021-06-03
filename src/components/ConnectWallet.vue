@@ -18,7 +18,8 @@ function useWallet(context: SetupContext, redirectTo: string) {
   async function connectWallet() {
     const rpcUrl = `https://mainnet.infura.io/v3/${String(process.env.INFURA_ID)}`;
 
-    // Definea available wallets
+    // Definea wallet checks and available wallets
+    const walletChecks = [{ checkName: 'connect' }];
     const wallets = [
       { walletName: 'metamask', preferred: true },
       { walletName: 'coinbase', preferred: true },
@@ -71,7 +72,8 @@ function useWallet(context: SetupContext, redirectTo: string) {
     const onboard = Onboard({
       dappId: process.env.BLOCKNATIVE_API_KEY,
       darkMode: Dark.isActive,
-      networkId: process.env.DEV ? 3 : 1, // Ropsten in dev, mainnet in production
+      networkId: 1,
+      walletCheck: walletChecks,
       walletSelect: {
         wallets: wallets,
       },
