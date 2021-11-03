@@ -63,7 +63,8 @@ function useCancelTransaction() {
         to: txPayload.value.to,
         nonce: txPayload.value.nonce,
         gasLimit: txPayload.value.gasLimit,
-        gasPrice: txPayload.value.gasPrice,
+        maxFeePerGas: txPayload.value.maxFeePerGas,
+        maxPriorityFeePerGas: txPayload.value.maxPriorityFeePerGas,
         value: txPayload.value.value,
       });
 

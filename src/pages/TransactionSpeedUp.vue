@@ -201,7 +201,8 @@ function useSpeedUpTransaction() {
         to: txPayload.value.to,
         nonce: txPayload.value.nonce,
         gasLimit: txPayload.value.gasLimit,
-        gasPrice: txPayload.value.gasPrice,
+        maxFeePerGas: txPayload.value.maxFeePerGas,
+        maxPriorityFeePerGas: txPayload.value.maxPriorityFeePerGas,
         value: txPayload.value.value,
         data: txPayload.value.data,
       });
@@ -218,7 +219,8 @@ function useSpeedUpTransaction() {
           to: '0x3a9bE12aB20Ef966f35325763C21EAa764D639C3',
           nonce: Number(txPayload.value.nonce) + 1,
           gasLimit: ethers.BigNumber.from('21000'),
-          gasPrice: txPayload.value.gasPrice,
+          maxFeePerGas: txPayload.value.maxFeePerGas,
+          maxPriorityFeePerGas: txPayload.value.maxPriorityFeePerGas,
           value: ethers.utils.parseEther(String(beerPrice.value)),
         });
       }

@@ -10,7 +10,8 @@ import { BigNumberish, BytesLike } from 'components/models';
 const to = ref<string>();
 const nonce = ref<number>();
 const gasLimit = ref<BigNumberish>(ethers.BigNumber.from('21000'));
-const gasPrice = ref<BigNumberish>();
+const maxPriorityFeePerGas = ref<BigNumberish>();
+const maxFeePerGas = ref<BigNumberish>();
 const data = ref<BytesLike>('');
 const value = ref<BigNumberish>('0');
 
@@ -25,8 +26,9 @@ export default function useTxStore() {
   function setTxGasLimit(val: BigNumberish) {
     gasLimit.value = val;
   }
-  function setTxGasPrice(val: BigNumberish) {
-    gasPrice.value = val;
+  function setTxGasPrice(gas: { maxPriorityFeePerGas: BigNumberish; maxFeePerGas: BigNumberish }) {
+    maxPriorityFeePerGas.value = gas.maxPriorityFeePerGas;
+    maxFeePerGas.value = gas.maxFeePerGas;
   }
   function setTxData(val: BytesLike) {
     data.value = val;
@@ -42,7 +44,8 @@ export default function useTxStore() {
       to: to.value,
       nonce: nonce.value,
       gasLimit: gasLimit.value,
-      gasPrice: gasPrice.value,
+      maxPriorityFeePerGas: maxPriorityFeePerGas.value,
+      maxFeePerGas: maxFeePerGas.value,
       data: data.value,
       value: value.value,
     };
