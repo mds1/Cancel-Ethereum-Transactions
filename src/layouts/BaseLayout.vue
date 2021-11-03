@@ -29,7 +29,7 @@
             </router-link>
 
             <router-link
-              v-if="userAddress"
+              v-if="displayName"
               active-class="is-active"
               class="col-auto cursor-pointer dark-toggle q-ml-lg"
               tag="div"
@@ -39,7 +39,7 @@
             </router-link>
 
             <router-link
-              v-if="userAddress"
+              v-if="displayName"
               active-class="is-active"
               class="col-auto cursor-pointer dark-toggle q-ml-lg"
               tag="div"
@@ -53,8 +53,8 @@
         <!-- Login address and settings -->
         <div class="col">
           <div class="row justify-end q-mt-xs">
-            <div v-if="userAddress" class="col-xs-12 dark-toggle text-caption text-right">
-              {{ userAddress }}
+            <div v-if="displayName" class="col-xs-12 dark-toggle text-caption text-right">
+              {{ displayName }}
             </div>
           </div>
         </div>
@@ -113,16 +113,15 @@ function useDarkMode() {
   return { toggleDarkMode, mounted };
 }
 
-function useWalletAddress() {
-  const { userAddress } = useWalletStore();
-
-  return { userAddress };
+function useDisplayName() {
+  const { displayName } = useWalletStore();
+  return { displayName };
 }
 
 export default defineComponent({
   name: 'BaseLayout',
   setup() {
-    return { ...useDarkMode(), ...useWalletAddress() };
+    return { ...useDarkMode(), ...useDisplayName() };
   },
 });
 </script>
