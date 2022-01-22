@@ -53,8 +53,11 @@
         <!-- Login address and settings -->
         <div class="col">
           <div class="row justify-end q-mt-xs">
-            <div v-if="displayName" class="col-xs-12 dark-toggle text-caption text-right">
-              {{ displayName }}
+            <div v-if="displayName" class="col-xs-12 dark-toggle text-right">
+              <div class="row justify-end">
+                <Jazzicon :address="userAddress" class="q-mr-sm" />
+                <span>{{ displayName }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -98,6 +101,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from '@vue/composition-api';
 import { Dark, LocalStorage } from 'quasar';
+import Jazzicon from 'src/components/Jazzicon.vue';
 import useWalletStore from 'src/store/wallet';
 
 function useDarkMode() {
@@ -114,12 +118,13 @@ function useDarkMode() {
 }
 
 function useDisplayName() {
-  const { displayName } = useWalletStore();
-  return { displayName };
+  const { displayName, userAddress } = useWalletStore();
+  return { displayName, userAddress };
 }
 
 export default defineComponent({
   name: 'BaseLayout',
+  components: { Jazzicon },
   setup() {
     return { ...useDarkMode(), ...useDisplayName() };
   },

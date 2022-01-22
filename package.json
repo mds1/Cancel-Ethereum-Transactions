@@ -20,6 +20,7 @@
     }
   },
   "dependencies": {
+    "@metamask/jazzicon": "^2.0.0",
     "@quasar/extras": "^1.12.4",
     "@unilogin/provider": "^0.6.1",
     "@vue/composition-api": "^0.6.4",
