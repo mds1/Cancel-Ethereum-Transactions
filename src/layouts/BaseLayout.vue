@@ -57,6 +57,7 @@
               <div class="row justify-end">
                 <Jazzicon :address="userAddress" class="q-mr-sm" />
                 <span>{{ displayName }}</span>
+                <div class="cursor-pointer text-caption col-12" @click="disconnectWallet">Disconnect wallet</div>
               </div>
             </div>
           </div>
@@ -125,8 +126,9 @@ function useDisplayName() {
 export default defineComponent({
   name: 'BaseLayout',
   components: { Jazzicon },
-  setup() {
-    return { ...useDarkMode(), ...useDisplayName() };
+  setup(_props, context) {
+    const { disconnectWallet } = useWalletStore();
+    return { ...useDarkMode(), ...useDisplayName(), disconnectWallet };
   },
 });
 </script>

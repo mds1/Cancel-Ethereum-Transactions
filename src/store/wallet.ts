@@ -35,12 +35,20 @@ export default function useWalletStore() {
     ensName.value = _ensName;
   }
 
+  function disconnectWallet() {
+    // To do this properly with nice UX, we need to move the Onboard instance out of
+    // ConnectWallet.vue and into this component. As a quick hack for now, we just refresh
+    // the page which disconnects the wallet and redirects to the home page
+    window.location.reload();
+  }
+
   return {
     provider: computed(() => provider.value),
     signer: computed(() => signer.value),
     userAddress: computed(() => userAddress.value),
     displayName: computed(() => ensName.value || userAddress.value),
     setProvider,
+    disconnectWallet,
   };
 }
 
