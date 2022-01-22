@@ -34,14 +34,15 @@
             <ol>
               <li>
                 Go to
-                <a href="https://etherscan.io/" target="_blank" class="hyperlink">Etherscan</a> and search for your
-                address. Use this as your source of truth to know how many transactions are pending.
+                <a href="https://etherscan.io/" target="_blank" class="hyperlink">Etherscan</a> (or the equivalent block
+                explorer for your network) and search for your address. Use this as your source of truth to know how
+                many transactions are pending.
               </li>
               <li>
                 Find the last successful transaction, click
                 <span class="text-italic">Click to see more</span>, and make a note of the nonce. The next transaction
-                you send must be one higher than this value. If your last successful transaction has a nonce of 47, your
-                next transaction must have a nonce of 48.
+                you send must have a nonce one higher than this value. If your last successful transaction has a nonce
+                of 47, your next transaction must have a nonce of 48.
               </li>
               <li>
                 Send your cancellation or speed-up transaction from this app and make sure to set the nonce to correct
@@ -69,8 +70,8 @@
             <ol>
               <li>
                 Go to
-                <a href="https://etherscan.io/" target="_blank" class="hyperlink">Etherscan</a> and search for your
-                transaction hash.
+                <a href="https://etherscan.io/" target="_blank" class="hyperlink">Etherscan</a> (or the equivalent block
+                explorer for your network) and search for your transaction hash.
               </li>
               <li>
                 Once viewing your transaction, click
@@ -107,19 +108,54 @@
             <ul>
               <li>
                 You may not want to use this functionality to speed up trades, such as token swaps on Uniswap. If prices
-                have changed since the transaction was originally sent, the new transaction may fail if it's identical.
-                This is done by Uniswap and other applications to protect you from executing a swap at a bad price that
-                you may not have wanted.
+                have changed since the transaction was originally sent, or too much time has elapsed since you first
+                sent it, the new transaction may fail if it's identical. This is done by Uniswap and other applications
+                to protect you from executing a swap at a bad price that you may not have wanted.
               </li>
               <li>
                 If your transaction required a very specific amount of Ether to be sent, there is a chance the
                 transaction will fail because Etherscan may not be showing the full amount of decimal places.
               </li>
               <li>
-                If you think either of the above cases applies to you, you may want to cancel your original transaction
-                and then send a new one instead of speeding up the existing one.
+                If you think either of the above cases applies to you, or are unsure, you may want to cancel your
+                original transaction and then send a new one instead of speeding up the existing one
               </li>
             </ul>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item
+        class="q-py-sm"
+        header-style="font-size: 1.1em;"
+        label="Why do I see an error message when trying to cancel or speed up?"
+      >
+        <q-card>
+          <q-card-section>
+            If the error message you're seeing is similar to "replacement fee too low" or "replacement transaction
+            underpriced", follow these steps:
+            <ol>
+              <li>
+                View your pending transaction on
+                <a href="https://etherscan.io/" target="_blank" class="hyperlink">Etherscan</a> (or the equivalent block
+                explorer for your network)
+              </li>
+              <li>Click "Click to see More" to see all transaction data</li>
+              <li>Find the row called "Gas fees" and note the values of "Max" and "Max Priority"</li>
+              <li>
+                Go back to the cancellation or speed up page and click "Show advanced settings", which will have default
+                values in the input fields
+              </li>
+              <li>
+                Make sure that the top field, "Max priority fee per gas", has a value at least 10% higher than what
+                Etherscan has for "Max Priority"
+              </li>
+              <li>
+                Make sure that the bottom field, "Max fee per gas", has a value at least 10% higher than what Etherscan
+                has for "Max"
+              </li>
+              <li>Try to send your cancellation, and it should now go through!</li>
+            </ol>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -164,8 +200,9 @@
             <ol>
               <li>
                 Go to
-                <a href="https://etherscan.io/" target="_blank" class="hyperlink">Etherscan</a> and search for your
-                address. Use this as your source of truth to know how many transactions are pending.
+                <a href="https://etherscan.io/" target="_blank" class="hyperlink">Etherscan</a> (or the equivalent block
+                explorer for your network) and search for your address. Use this as your source of truth to know how
+                many transactions are pending.
               </li>
               <li>
                 Open Coinbase Wallet and navigate to
